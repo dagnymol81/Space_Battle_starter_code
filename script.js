@@ -7,7 +7,6 @@ class Ship {
 
 shoot(enemy) {
     if (Math.random() < this.accuracy) {
-      console.log("accuracy is " + this.accuracy)
       enemy.hull -= this.firepower
       console.log("Hit!")
       console.log(enemy.constructor.name + " hull at " + enemy.hull)
@@ -70,7 +69,7 @@ function playGame() {
     } else {
       if (alienArray[0].hull < 0) {
         alienArray.shift() //remove ship if its hull is less than 0
-
+        console.log(alienArray.length + " ships remaining")
         retreatMsg = window.confirm('Alien ship defeated. Continue?') //continue if ok, end if cancel
         if (retreatMsg) {
           setTimeout(playGame(), 300) //go back to top of function
