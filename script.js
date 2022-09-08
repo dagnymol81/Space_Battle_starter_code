@@ -1,4 +1,13 @@
 let gameOver = false
+let enemy = "find enemy"
+
+setTimeout(() => {
+  let startMessage = window.confirm('The fate of Earth is in your hands. Are you ready?');
+  // if (startMessage) {
+  //     startGame()
+  // }
+}, '1000');
+
 
 
 //Ship contains properties and methods common to both player and alien ships
@@ -11,7 +20,11 @@ class Ship {
 
 shoot() {
 
-  let enemy = this.findTarget()
+  //change this! pops new alien every time
+
+  if (enemy == "find enemy" || enemy.hull <= 0) {
+    enemy = this.findTarget()
+  } 
 
   if(enemy) {
     if (Math.random() < this.accuracy) {
@@ -45,11 +58,16 @@ class playerShip extends Ship {
 
   defeatShip() {
     console.log("Kill!")
-    // console.log("There are " + alienArray.length + " enemy ships")
-    // if (!confirm("Ship defeated! Continue?")) {
-    //   gameOver = true;
-    //   console.log("Retreat")
-    // }
+    console.log("There are " + alienArray.length + " enemy ships")
+
+    setTimeout(() => {
+      let retreatPrompt = window.confirm('Alien ship defeated. Continue?');
+      if (!retreatPrompt) {
+        gameOver = true;
+        console.log("Retreat")
+      }
+    }, '1000');
+
   }
 }
 
@@ -89,6 +107,10 @@ const createAlienArray = function(numShips) {
   const alienArray = createAlienArray(6)
   const USSHelloWorld = new playerShip(20, 5, .7)
 
+  let enemyStats = document.querySelector(".enemyStats")
+  if (alienArray.length > 0) {
+    enemyStats.innerHTML = `Hull: <span id = "enemyhull">${alienArray[0].hull}</span><br>Firepower: ${alienArray[0].firepower}<br>Accuracy: ${alienArray[0].accuracy}`
+  }
 
     while (gameOver == false) {
       USSHelloWorld.shoot(), 2000
@@ -97,20 +119,10 @@ const createAlienArray = function(numShips) {
       }
     }
   
-
-
-
-
-
-
 let playerStats = document.querySelector(".playerStats")
-playerStats.innerHTML = `Hull: ${USSHelloWorld.hull}<br>Firepower: ${USSHelloWorld.firepower}<br>Accuracy: ${USSHelloWorld.accuracy}`
+playerStats.innerHTML = `Hull: <span id="playerhull">${USSHelloWorld.hull}</span><br>Firepower: ${USSHelloWorld.firepower}<br>Accuracy: ${USSHelloWorld.accuracy}`
 
-let enemyStats = document.querySelector(".enemyStats")
 
-if (alienArray.length > 0) {
-  enemyStats.innerHTML = `Hull: ${alienArray[0].hull}<br>Firepower: ${alienArray[0].firepower}<br>Accuracy: ${alienArray[0].accuracy}`
-}
 
 
 
