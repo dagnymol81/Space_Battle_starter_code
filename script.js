@@ -1,5 +1,7 @@
 let gameOver = false
 
+
+//Ship contains properties and methods common to both player and alien ships
 class Ship {
   constructor(hull, firepower, accuracy) {
     this.hull = hull
@@ -8,14 +10,18 @@ class Ship {
   }
 
 shoot() {
+
   let enemy = this.findTarget()
+
   if(enemy) {
     if (Math.random() < this.accuracy) {
       enemy.hull -= this.firepower
       console.log("Hit!")
+      console.log(enemy.constructor.name + " hull at " + enemy.hull)
     } else {
       console.log("Miss!")
     }
+
     if (enemy.hull <= 0) {
       this.defeatShip()
     }
@@ -29,34 +35,38 @@ class playerShip extends Ship {
   findTarget() {
     if (alienArray.length > 0) {
       let enemy = alienArray.pop()
+      console.log("Player ship shoots")
       return enemy;
     } else {
       gameOver = true;
       console.log("you win")
     }
   }
+
   defeatShip() {
     console.log("Kill!")
-    //todo: continue or retreat
-    //retreat breaks gameplay loop
-    if (!confirm("Ship defeated! Continue?")) {
-      gameOver = true;
-      console.log("Retreat")
-    }
+    // console.log("There are " + alienArray.length + " enemy ships")
+    // if (!confirm("Ship defeated! Continue?")) {
+    //   gameOver = true;
+    //   console.log("Retreat")
+    // }
   }
 }
 
 class alienShip extends Ship {
   findTarget() {
     let enemy = USSHelloWorld;
+    console.log("Alien ship shoots")
     return enemy;
   }
+
   defeatShip() {
     console.log("You are defeated!")
     gameOver = true;
   }
 }
 
+//helper function for better random!
 const randomInt = function(min, max) { // min and max included 
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
@@ -77,17 +87,30 @@ const createAlienArray = function(numShips) {
   }
 
   const alienArray = createAlienArray(6)
-  const USSHelloWorld = new playerShip(10, 5, .7)
+  const USSHelloWorld = new playerShip(20, 5, .7)
 
 
-
-  while (gameOver == false) {
-    USSHelloWorld.shoot()
-    if (alienArray.length > 0) {
-      alienArray[0].shoot()
+    while (gameOver == false) {
+      USSHelloWorld.shoot(), 2000
+      if (alienArray.length > 0) {
+        USSHelloWorld.shoot(), 2000
+      }
     }
-  }
+  
 
+
+
+
+
+
+let playerStats = document.querySelector(".playerStats")
+playerStats.innerHTML = `Hull: ${USSHelloWorld.hull}<br>Firepower: ${USSHelloWorld.firepower}<br>Accuracy: ${USSHelloWorld.accuracy}`
+
+let enemyStats = document.querySelector(".enemyStats")
+
+if (alienArray.length > 0) {
+  enemyStats.innerHTML = `Hull: ${alienArray[0].hull}<br>Firepower: ${alienArray[0].firepower}<br>Accuracy: ${alienArray[0].accuracy}`
+}
 
 
 
