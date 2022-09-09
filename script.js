@@ -46,47 +46,39 @@ setTimeout(() => {
   if (startMessage) {
     playGame()
   }
-}, '300');
+}, '1000');
 
-
-//recursive function handles gameplay loop
-function playGame() {
-
-  //first check for winning condition
-  if (alienArray.length < 1) {
-    console.log("you win!")
-  } 
-    else {
-    if (USSHelloWorld.hull > 0) {
-      USSHelloWorld.shoot(alienArray[0]) //Player shoots if they have hull remaining
-    }
-    if (alienArray[0].hull > 0) {
-      alienArray[0].shoot(USSHelloWorld) //Alien shoots if they have hull remaining
-    }
-
-    if (USSHelloWorld.hull < 0) {
-      console.log("Defeat!") //Defeat condition
-    } else {
-      if (alienArray[0].hull < 0) {
-        alienArray.shift() //remove ship if its hull is less than 0
-        console.log(alienArray.length + " ships remaining")
-        retreatMsg = window.confirm('Alien ship defeated. Continue?') //continue if ok, end if cancel
-        if (retreatMsg) {
-          setTimeout(playGame(), 300) //go back to top of function
-        }  
-        else {
-          console.log("Retreat")
-        }
-      } else { //if both ships still have hull remaining, go back to top of function
-        setTimeout(playGame(), 300)
-      }
-    }
+function playRound() {
+  if (USSHelloWorld.hull > 0) {
+    USSHelloWorld.shoot(alienArray[0]) //Player shoots if they have hull remaining
+  }
+  if (alienArray[0].hull > 0) {
+    alienArray[0].shoot(USSHelloWorld) //Alien shoots if they have hull remaining
   }
 }
 
+function playGame() {
 
+playRound() //both ships fire once if they have hull
 
+ if (USSHelloWorld.hull <= 0) {
+    console.log("you lose!")
+    return
+  } else if (alienArray[0].hull <= 0) {
+    alienArray.shift()
+    console.log(alienArray.length + " ships remaining")
+    if (alienArray.length < 1) {
+      console.log("you win!")
+      return
+    } else {
+      retreatMsg = window.confirm('Alien ship defeated. Continue?') 
+      if (!retreatMsg) {
+        console.log("retreat")
+        return
+      }
+    }
+  }
 
+  setTimeout(playGame, 1000)
 
-
-
+}
