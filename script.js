@@ -1,3 +1,5 @@
+let playerStats = document.querySelector(".playerStats")
+let enemyStats = document.querySelector(".enemyStats")
 class Ship {
   constructor(hull, firepower, accuracy) {
     this.hull = hull
@@ -37,6 +39,11 @@ function createAlienArray(numShips) {
   return arr;
   }
 
+function updateStats() {
+  playerStats.textContent = `Hull: ${USSHelloWorld.hull} Firepower: ${USSHelloWorld.firepower} Accuracy: ${USSHelloWorld.accuracy}`
+  enemyStats.textContent = `Hull: ${alienArray[0].hull} Firepower: ${alienArray[0].firepower} Accuracy: ${alienArray[0].accuracy}`
+}
+
 let alienArray = createAlienArray(6)
 let USSHelloWorld = new Ship(20, 5, .7)
 
@@ -57,7 +64,11 @@ function playRound() {
   }
 }
 
+updateStats()
+
 function playGame() {
+
+updateStats()
 
 playRound() //both ships fire once if they have hull
 
