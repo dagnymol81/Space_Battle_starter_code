@@ -83,17 +83,20 @@ function playGame() {
 
   if (USSHelloWorld.hull <= 0) {
     console.log("you lose!") //end if player ship has 0 hull
+    alert("You lose!")
     return
   } else if (alienArray[0].hull <= 0) { 
     alienArray.shift() //if alien ship has zero hull, move on to the next one
     console.log(alienArray.length + " ships remaining")
     if (alienArray.length < 1) {
       console.log("you win!") //if there are no alien ships remaining, end
+      alert("You win!")
       return
     } else {
       retreatMsg = window.confirm('Alien ship defeated. Continue?') 
       if (!retreatMsg) {
         console.log("retreat")
+        alert("Retreat is sometimes necessary")
         return //end if retreat
       }
     }
