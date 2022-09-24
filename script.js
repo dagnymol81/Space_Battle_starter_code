@@ -14,9 +14,11 @@ class Ship {
     if (Math.random() < this.accuracy) {
       enemy.hull -= this.firepower
       console.log("Hit!")
+      alert("Hit!")
       console.log(enemy.constructor.name + " hull at " + enemy.hull)
     } else {
       console.log("Miss!")
+      alert("Miss!")
     }
   }
 }
@@ -64,9 +66,11 @@ setTimeout(() => {
 //Player ship shoots, then alien ship (if it survives)
 function playRound() {
   if (USSHelloWorld.hull > 0) {
+    alert("Player 1 shoots!")
     USSHelloWorld.shoot(alienArray[0]) //Player shoots if they have hull remaining
   }
   if (alienArray[0].hull > 0) {
+    alert("Alien shoots!")
     alienArray[0].shoot(USSHelloWorld) //Alien shoots if they have hull remaining
   }
 }
@@ -79,7 +83,6 @@ function playGame() {
 
   //update the DOM first
   updateStats()
-  playRound() //both ships fire once if they have hull
 
   if (USSHelloWorld.hull <= 0) {
     console.log("you lose!") //end if player ship has 0 hull
@@ -101,7 +104,8 @@ function playGame() {
       }
     }
   }
+  setTimeout(playRound, 500) //both ships fire once if they have hull
 
-  setTimeout(playGame, 1000) //give DOM time to update, then play again
+  setTimeout(playGame, 500) //give DOM time to update, then play again
 
 }
